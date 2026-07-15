@@ -29,10 +29,12 @@ class LoginPage {
 
     // Thông báo kết quả
     this.flashMessage = page.locator('#flash');
+    this.errorMessage = page.locator('#flash.error');
   }
 
   /**
    * Mở trang Login
+   * @returns {Promise<void>}
    */
   async goto() {
     await this.page.goto(this.url);
@@ -41,6 +43,7 @@ class LoginPage {
   /**
    * Nhập Username
    * @param {string} username
+   * @returns {Promise<void>}
    */
   async enterUsername(username) {
     await this.usernameTextbox.fill(username);
@@ -49,6 +52,7 @@ class LoginPage {
   /**
    * Nhập Password
    * @param {string} password
+   * @returns {Promise<void>}
    */
   async enterPassword(password) {
     await this.passwordTextbox.fill(password);
@@ -56,6 +60,7 @@ class LoginPage {
 
   /**
    * Click nút Login
+   * @returns {Promise<void>}
    */
   async clickLogin() {
     await this.loginButton.click();
@@ -65,6 +70,7 @@ class LoginPage {
    * Thực hiện đăng nhập
    * @param {string} username
    * @param {string} password
+   * @returns {Promise<void>}
    */
   async login(username, password) {
     await this.enterUsername(username);
@@ -73,7 +79,24 @@ class LoginPage {
   }
 
   /**
+   * Trả về nội dung flash message
+   * @returns {Promise<string|null>}
+   */
+  async getFlashText() {
+    return this.flashMessage.textContent();
+  }
+
+  /**
+   * Kiểm tra có hiển thị thông báo lỗi hay không
+   * @returns {Promise<boolean>}
+   */
+  async isErrorDisplayed() {
+    return this.errorMessage.isVisible();
+  }
+
+  /**
    * Kiểm tra đang ở trang Login
+   * @returns {Promise<void>}
    */
   async verifyLoginPage() {
     await expect(this.page).toHaveURL(/.*\/login/);
@@ -82,6 +105,7 @@ class LoginPage {
   /**
    * Kiểm tra nội dung thông báo
    * @param {string} message
+   * @returns {Promise<void>}
    */
   async verifyFlashMessage(message) {
     await expect(this.flashMessage).toContainText(message);
