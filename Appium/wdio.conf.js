@@ -6,7 +6,7 @@ exports.config = {
     path: '/',
 
     specs: [
-        './**/*.js'
+        './test/specs/settings.spec.js'
     ],
 
     maxInstances: 1,
@@ -15,15 +15,18 @@ exports.config = {
         platformName: 'Android',
         'appium:automationName': 'UiAutomator2',
         'appium:deviceName': 'Android Emulator',
-        'appium:platformVersion': '13',
         'appium:appPackage': 'com.android.settings',
+        'appium:platformVersion': '13',
         'appium:appActivity': '.Settings',
-        'appium:noReset': true
+        'appium:noReset': true,
+        'appium:newCommandTimeout': 240
     }],
 
     logLevel: 'info',
 
     framework: 'mocha',
+
+    reporters: ['spec'],
 
     mochaOpts: {
         ui: 'bdd',
